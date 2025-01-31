@@ -1,0 +1,108 @@
+export interface ILocation {
+    title: string;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    latitude: string;
+    longitude: string;
+}
+
+export interface ILocationDetails {
+    city: string;
+    state: string;
+    country: string;
+    latitude: string;
+    longitude: string;
+}
+
+export interface IRouteService {
+    distanceMiles: number;
+    duration: string;
+    executionTime: number;
+    error?: string;
+    details?: string;
+    allData: any
+}
+
+export interface IRouteResults {
+    graph?: IRouteService;
+    here?: IRouteService;
+    google?: IRouteService;
+    geoApify?: IRouteService;
+    totalExecutionTime?: number;
+}
+
+export type TransportMode = 'truck' | 'small_truck' | 'car';
+
+export interface TransportOption {
+    value: TransportMode;
+    label: string;
+}
+
+export interface IDriveDistanceItem {
+    distanceMiles: number;
+    duration: string;
+    executionTime: number;
+    allData: any;
+}
+
+export interface IResponseDriveDistance {
+    geoApify: IDriveDistanceItem,
+    google: IDriveDistanceItem,
+    graph: IDriveDistanceItem,
+    here: IDriveDistanceItem,
+    totalExecutionTime: number
+}
+
+export interface ICustomer {
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+}
+
+export interface IAddress {
+    address: string;
+    zip_code: string;
+    city: string;
+    state: string;
+    country: string;
+}
+
+export interface IMoveType {
+    local_move: number;
+    long_distance_move: number;
+    intrastate_move: number;
+    commercial_move: number;
+    junk_removal: number;
+    labor_only: number;
+}
+
+export interface IOrder {
+    customer: ICustomer;
+    pickup_address: IAddress;
+    delivery_address: IAddress;
+    move_type: IMoveType;
+    move_size: string;
+}
+
+export type MoveTypeValue =
+    | 'commercial_move'
+    | 'intrastate_move'
+    | 'junk_removal'
+    | 'labor_only'
+    | 'local_move'
+    | 'long_distance_move';
+
+export type MoveSize =
+    | 'Studio'
+    | '1 Bedroom Apartment'
+    | '1 Bedroom House'
+    | '2 Bedroom Apartment'
+    | '2 Bedroom House'
+    | '3 Bedroom Apartment'
+    | '3 Bedroom House'
+    | '4+ Bedroom Apartment'
+    | '4+ Bedroom House'
+    | 'Few Items';
