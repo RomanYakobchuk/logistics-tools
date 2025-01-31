@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateOrders } from '@/lib/order-generator';
 import {json2csv} from 'json-2-csv';
 
-export const maxDuration = 300;
+export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
