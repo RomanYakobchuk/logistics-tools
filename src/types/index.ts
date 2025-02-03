@@ -22,7 +22,7 @@ export interface IRouteService {
     executionTime: number;
     error?: string;
     details?: string;
-    allData: any
+    allData: any;
 }
 
 export interface IRouteResults {
@@ -48,11 +48,11 @@ export interface IDriveDistanceItem {
 }
 
 export interface IResponseDriveDistance {
-    geoApify: IDriveDistanceItem,
-    google: IDriveDistanceItem,
-    graph: IDriveDistanceItem,
-    here: IDriveDistanceItem,
-    totalExecutionTime: number
+    geoApify: IDriveDistanceItem;
+    google: IDriveDistanceItem;
+    graph: IDriveDistanceItem;
+    here: IDriveDistanceItem;
+    totalExecutionTime: number;
 }
 
 export interface ICustomer {
@@ -70,24 +70,7 @@ export interface IAddress {
     country: string;
 }
 
-export interface IMoveType {
-    local_move: number;
-    long_distance_move: number;
-    intrastate_move: number;
-    commercial_move: number;
-    junk_removal: number;
-    labor_only: number;
-}
-
-export interface IOrder {
-    customer: ICustomer;
-    pickup_address: IAddress;
-    delivery_address: IAddress;
-    move_type: IMoveType;
-    move_size: string;
-}
-
-export type MoveTypeValue =
+export type MoveType =
     | 'commercial_move'
     | 'intrastate_move'
     | 'junk_removal'
@@ -106,3 +89,11 @@ export type MoveSize =
     | '4+ Bedroom Apartment'
     | '4+ Bedroom House'
     | 'Few Items';
+
+export interface IOrder {
+    customer: ICustomer;
+    pickup_address: IAddress;
+    delivery_address: IAddress;
+    move_type: MoveType;
+    move_size: MoveSize;
+}

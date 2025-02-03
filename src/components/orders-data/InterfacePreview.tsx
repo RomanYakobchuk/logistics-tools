@@ -11,7 +11,6 @@ const InterfacePreview = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
                 <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
                     <div className="font-medium text-gray-900 mb-3">Order Data (IOrder)</div>
                     <div className="space-y-1.5 text-sm">
@@ -23,9 +22,9 @@ const InterfacePreview = () => {
                             <div className="text-gray-600">delivery_address:</div>
                             <div className="font-mono text-gray-900">IAddress</div>
                             <div className="text-gray-600">move_type:</div>
-                            <div className="font-mono text-gray-900">IMoveType</div>
+                            <div className="font-mono text-gray-900">MoveType</div>
                             <div className="text-gray-600">move_size:</div>
-                            <div className="font-mono text-gray-900">string</div>
+                            <div className="font-mono text-gray-900">MoveSize</div>
                         </div>
                     </div>
                 </div>
@@ -65,21 +64,42 @@ const InterfacePreview = () => {
                 </div>
 
                 <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                    <div className="font-medium text-gray-900 mb-3">Move Type Data (IMoveType)</div>
+                    <div className="font-medium text-gray-900 mb-3">Move Type Values</div>
                     <div className="space-y-1.5 text-sm">
                         <div className="grid grid-cols-2 gap-2">
                             <div className="text-gray-600">local_move:</div>
-                            <div className="font-mono text-gray-900">number</div>
+                            <div className="font-mono text-gray-900">40%</div>
                             <div className="text-gray-600">long_distance_move:</div>
-                            <div className="font-mono text-gray-900">number</div>
+                            <div className="font-mono text-gray-900">40%</div>
                             <div className="text-gray-600">intrastate_move:</div>
-                            <div className="font-mono text-gray-900">number</div>
+                            <div className="font-mono text-gray-900">5%</div>
                             <div className="text-gray-600">commercial_move:</div>
-                            <div className="font-mono text-gray-900">number</div>
+                            <div className="font-mono text-gray-900">5%</div>
                             <div className="text-gray-600">junk_removal:</div>
-                            <div className="font-mono text-gray-900">number</div>
+                            <div className="font-mono text-gray-900">5%</div>
                             <div className="text-gray-600">labor_only:</div>
-                            <div className="font-mono text-gray-900">number</div>
+                            <div className="font-mono text-gray-900">5%</div>
+                        </div>
+                    </div>
+                    <div className="mt-3 text-xs text-gray-500">
+                        Distribution percentages for generated orders
+                    </div>
+                </div>
+
+                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <div className="font-medium text-gray-900 mb-3">Move Size Values</div>
+                    <div className="space-y-1.5 text-sm">
+                        <div className="grid grid-cols-1 gap-1">
+                            <div className="font-mono text-gray-900">Studio</div>
+                            <div className="font-mono text-gray-900">1 Bedroom Apartment</div>
+                            <div className="font-mono text-gray-900">1 Bedroom House</div>
+                            <div className="font-mono text-gray-900">2 Bedroom Apartment</div>
+                            <div className="font-mono text-gray-900">2 Bedroom House</div>
+                            <div className="font-mono text-gray-900">3 Bedroom Apartment</div>
+                            <div className="font-mono text-gray-900">3 Bedroom House</div>
+                            <div className="font-mono text-gray-900">4+ Bedroom Apartment</div>
+                            <div className="font-mono text-gray-900">4+ Bedroom House</div>
+                            <div className="font-mono text-gray-900">Few Items</div>
                         </div>
                     </div>
                 </div>

@@ -13,8 +13,7 @@ interface Props {
     onSelect?: (value: ILocation | null) => void;
     inputRef?: React.RefObject<HTMLInputElement | null>;
 }
-// const api = 'http://localhost:3000/dev';
-const api = 'https://0vwjhdiv2l.execute-api.us-west-2.amazonaws.com';
+const API = process.env.NEXT_PUBLIC_GEOCODE_API || "";
 
 function LocationSelector({ label, value, onChange, onSelect, inputRef: externalInputRef }: Props) {
     const [query, setQuery] = useState('');
@@ -40,7 +39,7 @@ function LocationSelector({ label, value, onChange, onSelect, inputRef: external
             setError(null);
 
             try {
-                const response = await fetch(`${api}/geocode?query=${encodeURIComponent(query)}`);
+                const response = await fetch(`${API}?query=${encodeURIComponent(query)}`);
                 const data = await response.json();
 
                 if (data.items && data.items.length > 0) {

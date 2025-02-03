@@ -1,7 +1,6 @@
-import {faker} from '@faker-js/faker';
-import {IAddress, IOrder, MoveSize, MoveTypeValue} from "@/types";
-import {EMAIL_DOMAINS, STATES, US_FIRST_NAMES, US_LAST_NAMES} from "@/lib/lists";
-
+import { faker } from '@faker-js/faker';
+import { IAddress, IOrder, MoveSize, MoveType } from "@/types";
+import { EMAIL_DOMAINS, STATES, US_FIRST_NAMES, US_LAST_NAMES } from "@/lib/lists";
 
 const generateEmail = (firstName: string, lastName: string): string => {
     const domain = faker.helpers.arrayElement(EMAIL_DOMAINS);
@@ -15,20 +14,50 @@ const generateEmail = (firstName: string, lastName: string): string => {
 };
 
 const generatePhone = (): string => {
-    const areaCode = faker.number.int({min: 200, max: 999}).toString();
-    const prefix = faker.number.int({min: 200, max: 999}).toString();
-    const lineNumber = faker.number.int({min: 1000, max: 9999}).toString();
+    const areaCode = faker.number.int({ min: 200, max: 999 }).toString();
+    const prefix = faker.number.int({ min: 200, max: 999 }).toString();
+    const lineNumber = faker.number.int({ min: 1000, max: 9999 }).toString();
     return `+1${areaCode}${prefix}${lineNumber}`;
 };
 
-const generateAddress = (specificState?: string): IAddress => {
+const shouldUseSameCity = (moveType: MoveType): boolean => {
+    if (moveType === 'local_move') {
+        return true;
+    } else if (moveType === 'intrastate_move') {
+        return false;
+    }
+    return faker.datatype.boolean();
+};
+
+const generateAddress = (
+    specificState?: string,
+    useSpecificCity?: string,
+    excludeCity?: string,
+    excludeAddress?: string
+): IAddress => {
     const state = specificState || faker.helpers.objectKey(STATES);
     const stateData = STATES[state as keyof typeof STATES];
 
-    const cityData = faker.helpers.arrayElement(stateData.cities);
+    let cityData;
+    if (useSpecificCity) {
+        cityData = stateData.cities.find(city => city.name === useSpecificCity);
+    } else if (excludeCity) {
+        const availableCities = stateData.cities.filter(city => city.name !== excludeCity);
+        cityData = faker.helpers.arrayElement(availableCities);
+    } else {
+        cityData = faker.helpers.arrayElement(stateData.cities);
+    }
 
-    const addressData = faker.helpers.arrayElement(cityData.addresses);
+    if (!cityData) {
+        cityData = stateData.cities[0];
+    }
 
+    let availableAddresses = cityData.addresses;
+    if (excludeAddress) {
+        availableAddresses = availableAddresses.filter(addr => addr.street !== excludeAddress);
+    }
+
+    const addressData = faker.helpers.arrayElement(availableAddresses);
     const streetAddress = addressData.street.match(/^\d+/)
         ? addressData.street
         : `${faker.number.int({min: 1, max: 9999})} ${addressData.street}`;
@@ -42,40 +71,27 @@ const generateAddress = (specificState?: string): IAddress => {
     };
 };
 
-const getMoveType = () => {
-    const ranges = {
-        'local_move': {min: 40, max: 45},
-        'long_distance_move': {min: 25, max: 30},
-        'intrastate_move': {min: 12, max: 15},
-        'commercial_move': {min: 8, max: 10},
-        'junk_removal': {min: 3, max: 5},
-        'labor_only': {min: 2, max: 3}
-    };
+const MOVE_TYPE_DISTRIBUTION: [MoveType, number][] = [
+    ['local_move', 40],
+    ['long_distance_move', 40],
+    ['intrastate_move', 5],
+    ['commercial_move', 5],
+    ['junk_removal', 5],
+    ['labor_only', 5]
+];
 
-    let remaining = 100;
-    const result: Record<MoveTypeValue, number> = {} as Record<MoveTypeValue, number>;
+const weightedRandomMoveType = (): MoveType => {
+    const totalWeight = MOVE_TYPE_DISTRIBUTION.reduce((sum, [, weight]) => sum + weight, 0);
+    let random = Math.random() * totalWeight;
 
-    const types = Object.entries(ranges).sort((a, b) => b[1].max - a[1].max);
-
-    for (let i = 0; i < types.length - 1; i++) {
-        const [type, range] = types[i];
-        const maxPossible = Math.min(range.max, remaining - (types.length - i - 1));
-        const minPossible = Math.max(range.min, 1);
-
-        if (maxPossible < minPossible) {
-            result[type as MoveTypeValue] = minPossible;
-            remaining -= minPossible;
-        } else {
-            const value = Math.floor(Math.random() * (maxPossible - minPossible + 1)) + minPossible;
-            result[type as MoveTypeValue] = value;
-            remaining -= value;
+    for (const [moveType, weight] of MOVE_TYPE_DISTRIBUTION) {
+        if (random < weight) {
+            return moveType;
         }
+        random -= weight;
     }
 
-    const [lastType] = types[types.length - 1];
-    result[lastType as MoveTypeValue] = remaining;
-
-    return result;
+    return MOVE_TYPE_DISTRIBUTION[0][0];
 };
 
 const getMoveSize = (): MoveSize => {
@@ -88,11 +104,23 @@ const getMoveSize = (): MoveSize => {
     return faker.helpers.arrayElement(sizes);
 };
 
-
-const generateOrder = (pickupState?: string) => {
+const generateOrder = (pickupState?: string): IOrder => {
     const firstName = faker.helpers.arrayElement(US_FIRST_NAMES);
     const lastName = faker.helpers.arrayElement(US_LAST_NAMES);
-    const deliveryState = faker.helpers.objectKey(STATES);
+    const moveType = weightedRandomMoveType();
+
+    const pickupAddress = generateAddress(pickupState);
+
+    let deliveryAddress: IAddress;
+    if (moveType === 'local_move' || moveType === 'intrastate_move') {
+        if (shouldUseSameCity(moveType)) {
+            deliveryAddress = generateAddress(pickupAddress.state, pickupAddress.city);
+        } else {
+            deliveryAddress = generateAddress(pickupAddress.state, undefined, pickupAddress.city);
+        }
+    } else {
+        deliveryAddress = generateAddress();
+    }
 
     return {
         customer: {
@@ -101,13 +129,13 @@ const generateOrder = (pickupState?: string) => {
             email: generateEmail(firstName, lastName),
             phone: generatePhone(),
         },
-        pickup_address: generateAddress(pickupState),
-        delivery_address: generateAddress(deliveryState),
-        move_type: getMoveType(),
+        pickup_address: pickupAddress,
+        delivery_address: deliveryAddress,
+        move_type: moveType,
         move_size: getMoveSize(),
     };
 };
 
 export const generateOrders = (count: number, pickupState?: string): IOrder[] => {
-    return Array.from({length: count}, () => generateOrder(pickupState));
+    return Array.from({ length: count }, () => generateOrder(pickupState));
 };

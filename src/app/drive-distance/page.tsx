@@ -5,8 +5,8 @@ import {ILocation, IResponseDriveDistance, IRouteResults, TransportMode} from "@
 import {LocationSelector, Results, TransportModeSelector} from "@/components/drive-distance";
 import APIPricing from "@/components/drive-distance/ApiPricing";
 
-const api = 'https://u7uzhu3r3j.execute-api.us-west-2.amazonaws.com';
-// const api = 'http://localhost:3000/dev';
+const API = process.env.NEXT_PUBLIC_DRIVE_DISTANCE_API || "";
+
 const DriveDistancePage = () => {
     const [origin, setOrigin] = useState<ILocation | null>(null);
     const [destination, setDestination] = useState<ILocation | null>(null);
@@ -28,7 +28,7 @@ const DriveDistancePage = () => {
 
         try {
             const response = await fetch(
-                `${api}/drive-distance?originLat=${origin.latitude}&originLon=${origin.longitude}&destinationLat=${destination.latitude}&destinationLon=${destination.longitude}&transportMode=${transportMode}`
+                `${API}?originLat=${origin.latitude}&originLon=${origin.longitude}&destinationLat=${destination.latitude}&destinationLon=${destination.longitude}&transportMode=${transportMode}`
             );
             const data: IResponseDriveDistance = await response.json();
 
