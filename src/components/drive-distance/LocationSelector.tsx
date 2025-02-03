@@ -39,7 +39,7 @@ function LocationSelector({ label, value, onChange, onSelect, inputRef: external
             setError(null);
 
             try {
-                console.log('api: ', api)
+                console.log('api: ', API)
                 const response = await fetch(`${API}?query=${encodeURIComponent(query)}`);
                 const data = await response.json();
 
