@@ -54,7 +54,6 @@ export interface IResponseDriveDistance {
     here: IDriveDistanceItem;
     totalExecutionTime: number;
 }
-
 export interface ICustomer {
     first_name: string;
     last_name: string;
@@ -90,10 +89,26 @@ export type MoveSize =
     | '4+ Bedroom House'
     | 'Few Items';
 
+export type Status = 'Booked' | 'Dead' | 'Follow Up' | 'New';
+export type FollowUp = 'Follow Up 1' | 'Follow Up 2' | 'Follow Up 3' | 'Follow Up 4' | 'Follow Up 5' | 'Follow Up 6' | 'Follow Up 7' | 'Follow Up 8' | 'Follow Up 9';
+export type Source = 'Angi' | 'Direct Mail' | 'Google Ads' | 'Google (Organic)' | 'Home Advisor' | 'Saw Our Truck' | 'Thumbtack' | 'Yahoo' | 'Yelp';
+
 export interface IOrder {
     customer: ICustomer;
     pickup_address: IAddress;
     delivery_address: IAddress;
     move_type: MoveType;
     move_size: MoveSize;
+    status: Status;
+    source: Source;
+    follow_up?: FollowUp;
+    volume: number;
+    crew_size: number;
+    trucks: number;
+    created_at: string;
+    move_date: string;
+    follow_up_date?: string;
+    booked_date?: string;
+    estimated: number;
+    balance: number;
 }

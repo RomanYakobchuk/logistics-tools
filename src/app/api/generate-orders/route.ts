@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateOrders } from '@/lib/order-generator';
-import {json2csv} from 'json-2-csv';
+import { json2csv } from 'json-2-csv';
 
 export const maxDuration = 300;
 export const dynamic = 'force-dynamic';
@@ -8,9 +8,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(req: NextRequest) {
     try {
         const { count, pickupState } = await req.json();
-
-        const orderCount = Math.min(Math.max(1, Number(count)), 200000);
-
+        const orderCount = Math.min(Math.max(1, Number(count)), 100000);
         const orders = generateOrders(orderCount, pickupState);
 
         const options = {
@@ -19,6 +17,18 @@ export async function POST(req: NextRequest) {
                 'customer.last_name',
                 'customer.email',
                 'customer.phone',
+                'move_size',
+                'move_type',
+                'source',
+                'status',
+                'follow_up',
+                'volume',
+                'crew_size',
+                'trucks',
+                'created_at',
+                'move_date',
+                'follow_up_date',
+                'booked_date',
                 'pickup_address.address',
                 'pickup_address.zip_code',
                 'pickup_address.city',
@@ -29,8 +39,8 @@ export async function POST(req: NextRequest) {
                 'delivery_address.city',
                 'delivery_address.state',
                 'delivery_address.country',
-                'move_type',
-                'move_size',
+                'estimated',
+                'balance'
             ],
             emptyFieldValue: '',
             delimiter: {

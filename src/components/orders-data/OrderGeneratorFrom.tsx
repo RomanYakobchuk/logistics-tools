@@ -187,16 +187,16 @@ const OrderGeneratorForm = () => {
                             <input
                                 type="number"
                                 min="1"
-                                max="200000"
+                                max="100000"
                                 value={count}
                                 onChange={(e) => {
                                     const v = Number(e.target.value || 0);
-                                    setCount((v < 0 ? 0 : v >= 200000 ? 200000 : v)?.toString())
+                                    setCount((v < 0 ? 0 : v >= 100000 ? 100000 : v)?.toString())
                                 }}
                                 className="w-full border border-gray-300 rounded-lg py-2.5 px-4 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             />
                             <p className="mt-1 text-xs text-gray-500">
-                                Generate between 1 and 200,000 orders
+                                Generate between 1 and 100,000 orders
                             </p>
                         </div>
                     </div>
