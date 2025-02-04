@@ -9,7 +9,7 @@ interface OrderPreviewProps {
 }
 
 export const OrderPreview: React.FC<OrderPreviewProps> = ({ orders }) => {
-    const [showPreview, setShowPreview] = useState(true);
+    const [showPreview, setShowPreview] = useState(false);
 
     if (orders.length === 0) return null;
 

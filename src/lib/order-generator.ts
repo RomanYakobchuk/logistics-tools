@@ -102,7 +102,7 @@ const generateAddress = (
     excludeCity?: string,
     excludeAddress?: string
 ): IAddress => {
-    const state = specificState || faker.helpers.objectKey(STATES);
+    const state = specificState != 'undefined' && specificState || faker.helpers.objectKey(STATES);
     const stateData = STATES[state as keyof typeof STATES];
 
     let cityData;
@@ -112,7 +112,7 @@ const generateAddress = (
         const availableCities = stateData.cities.filter(city => city.name !== excludeCity);
         cityData = faker.helpers.arrayElement(availableCities);
     } else {
-        cityData = faker.helpers.arrayElement(stateData.cities);
+        cityData = faker.helpers.arrayElement(stateData?.cities || []);
     }
 
     if (!cityData) {

@@ -1,72 +1,108 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Download, Loader2 } from 'lucide-react';
+import React, {useState} from 'react';
+import {Download, Loader2, SquarePen} from 'lucide-react';
 
 import {InterfacePreview, OrderPreview} from "@/components/orders-data";
 import {IOrder} from "@/types";
+import {json2csv} from "json-2-csv";
 
 const AVAILABLE_STATES = [
-    { value: 'ALL', label: 'All States (Random)' },
-    { value: 'AL', label: 'Alabama' },
-    { value: 'AK', label: 'Alaska' },
-    { value: 'AZ', label: 'Arizona' },
-    { value: 'AR', label: 'Arkansas' },
-    { value: 'CA', label: 'California' },
-    { value: 'CO', label: 'Colorado' },
-    { value: 'CT', label: 'Connecticut' },
-    { value: 'DE', label: 'Delaware' },
-    { value: 'FL', label: 'Florida' },
-    { value: 'GA', label: 'Georgia' },
-    { value: 'HI', label: 'Hawaii' },
-    { value: 'ID', label: 'Idaho' },
-    { value: 'IL', label: 'Illinois' },
-    { value: 'IN', label: 'Indiana' },
-    { value: 'IA', label: 'Iowa' },
-    { value: 'KS', label: 'Kansas' },
-    { value: 'KY', label: 'Kentucky' },
-    { value: 'LA', label: 'Louisiana' },
-    { value: 'ME', label: 'Maine' },
-    { value: 'MD', label: 'Maryland' },
-    { value: 'MA', label: 'Massachusetts' },
-    { value: 'MI', label: 'Michigan' },
-    { value: 'MN', label: 'Minnesota' },
-    { value: 'MS', label: 'Mississippi' },
-    { value: 'MO', label: 'Missouri' },
-    { value: 'MT', label: 'Montana' },
-    { value: 'NE', label: 'Nebraska' },
-    { value: 'NV', label: 'Nevada' },
-    { value: 'NH', label: 'New Hampshire' },
-    { value: 'NJ', label: 'New Jersey' },
-    { value: 'NM', label: 'New Mexico' },
-    { value: 'NY', label: 'New York' },
-    { value: 'NC', label: 'North Carolina' },
-    { value: 'ND', label: 'North Dakota' },
-    { value: 'OH', label: 'Ohio' },
-    { value: 'OK', label: 'Oklahoma' },
-    { value: 'OR', label: 'Oregon' },
-    { value: 'PA', label: 'Pennsylvania' },
-    { value: 'RI', label: 'Rhode Island' },
-    { value: 'SC', label: 'South Carolina' },
-    { value: 'SD', label: 'South Dakota' },
-    { value: 'TN', label: 'Tennessee' },
-    { value: 'TX', label: 'Texas' },
-    { value: 'UT', label: 'Utah' },
-    { value: 'VT', label: 'Vermont' },
-    { value: 'VA', label: 'Virginia' },
-    { value: 'WA', label: 'Washington' },
-    { value: 'WV', label: 'West Virginia' },
-    { value: 'WI', label: 'Wisconsin' },
-    { value: 'WY', label: 'Wyoming' }
+    {value: 'ALL', label: 'All States (Random)'},
+    {value: 'AL', label: 'Alabama'},
+    {value: 'AK', label: 'Alaska'},
+    {value: 'AZ', label: 'Arizona'},
+    {value: 'AR', label: 'Arkansas'},
+    {value: 'CA', label: 'California'},
+    {value: 'CO', label: 'Colorado'},
+    {value: 'CT', label: 'Connecticut'},
+    {value: 'DE', label: 'Delaware'},
+    {value: 'FL', label: 'Florida'},
+    {value: 'GA', label: 'Georgia'},
+    {value: 'HI', label: 'Hawaii'},
+    {value: 'ID', label: 'Idaho'},
+    {value: 'IL', label: 'Illinois'},
+    {value: 'IN', label: 'Indiana'},
+    {value: 'IA', label: 'Iowa'},
+    {value: 'KS', label: 'Kansas'},
+    {value: 'KY', label: 'Kentucky'},
+    {value: 'LA', label: 'Louisiana'},
+    {value: 'ME', label: 'Maine'},
+    {value: 'MD', label: 'Maryland'},
+    {value: 'MA', label: 'Massachusetts'},
+    {value: 'MI', label: 'Michigan'},
+    {value: 'MN', label: 'Minnesota'},
+    {value: 'MS', label: 'Mississippi'},
+    {value: 'MO', label: 'Missouri'},
+    {value: 'MT', label: 'Montana'},
+    {value: 'NE', label: 'Nebraska'},
+    {value: 'NV', label: 'Nevada'},
+    {value: 'NH', label: 'New Hampshire'},
+    {value: 'NJ', label: 'New Jersey'},
+    {value: 'NM', label: 'New Mexico'},
+    {value: 'NY', label: 'New York'},
+    {value: 'NC', label: 'North Carolina'},
+    {value: 'ND', label: 'North Dakota'},
+    {value: 'OH', label: 'Ohio'},
+    {value: 'OK', label: 'Oklahoma'},
+    {value: 'OR', label: 'Oregon'},
+    {value: 'PA', label: 'Pennsylvania'},
+    {value: 'RI', label: 'Rhode Island'},
+    {value: 'SC', label: 'South Carolina'},
+    {value: 'SD', label: 'South Dakota'},
+    {value: 'TN', label: 'Tennessee'},
+    {value: 'TX', label: 'Texas'},
+    {value: 'UT', label: 'Utah'},
+    {value: 'VT', label: 'Vermont'},
+    {value: 'VA', label: 'Virginia'},
+    {value: 'WA', label: 'Washington'},
+    {value: 'WV', label: 'West Virginia'},
+    {value: 'WI', label: 'Wisconsin'},
+    {value: 'WY', label: 'Wyoming'}
 ];
 
+const options = {
+    keys: [
+        'first_name',
+        'last_name',
+        'email',
+        'phone',
+        'move_size',
+        'move_type',
+        'source',
+        'status',
+        'follow_up',
+        'volume',
+        'crew_size',
+        'trucks',
+        'created_at',
+        'move_date',
+        'follow_up_date',
+        'booked_date',
+        'pickup_zip',
+        'pickup_city',
+        'pickup_state',
+        'delivery_zip',
+        'delivery_city',
+        'delivery_state',
+        'estimated',
+        'balance'
+    ],
+    emptyFieldValue: '',
+    delimiter: {
+        field: ',',
+    }
+};
+
+// const csv = await json2csv(orders, options);
+
 const OrderGeneratorForm = () => {
+    const [orders, setOrders] = useState<IOrder[]>([]);
     const [pickupState, setPickupState] = useState('ALL');
     const [count, setCount] = useState('1000');
     const [isLoading, setIsLoading] = useState(false);
     const [isSelectOpen, setIsSelectOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [previewData, setPreviewData] = useState<IOrder[]>([]);
 
     const filteredStates = AVAILABLE_STATES.filter(state =>
         state.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -77,36 +113,31 @@ const OrderGeneratorForm = () => {
         try {
             setIsLoading(true);
 
-            const response = await fetch(`/api/generate-orders`, {
-                method: 'POST',
+            const response = await fetch(`/api/generate-orders?count=${count}&pickupState=${pickupState === 'ALL' ? undefined : pickupState}`, {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    count: parseInt(count),
-                    pickupState: pickupState === 'ALL' ? undefined : pickupState,
-                    preview: true
-                }),
             });
 
             if (!response.ok) {
                 throw new Error('Failed to generate orders');
             }
 
-            const data = await response.json();
-            setPreviewData(data.previewData || []);
+            const data: IOrder[] = await response.json();
+            setOrders(data);
 
-            if (data.csvBlob) {
-                const blob = new Blob([data.csvBlob], { type: 'text/csv' });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `orders-${count}-${new Date().toISOString()}.csv`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-            }
+            // if (data.csvBlob) {
+            //     const blob = new Blob([data.csvBlob], { type: 'text/csv' });
+            //     const url = URL.createObjectURL(blob);
+            //     const link = document.createElement('a');
+            //     link.href = url;
+            //     link.download = `orders-${count}-${new Date().toISOString()}.csv`;
+            //     document.body.appendChild(link);
+            //     link.click();
+            //     document.body.removeChild(link);
+            //     URL.revokeObjectURL(url);
+            // }
         } catch (error) {
             console.error('Error generating orders:', error);
             alert('Failed to generate orders. Please try again.');
@@ -115,6 +146,28 @@ const OrderGeneratorForm = () => {
         }
     };
 
+    const handleDownload = async (format: 'csv' | 'json') => {
+        try {
+            let blob;
+            if (format === 'csv') {
+                const csv = await json2csv(orders, options);
+                blob = new Blob([csv], { type: 'text/csv' });
+            } else {
+                blob = new Blob([JSON.stringify(orders, null, 2)], { type: 'application/json' });
+            }
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `orders-${count}-${new Date().toISOString()}.${format}`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error downloading file:', error);
+        }
+    };
     return (
         <div className="min-h-[70vh] py-12">
             <div className="max-w-7xl mx-auto px-4">
@@ -141,7 +194,8 @@ const OrderGeneratorForm = () => {
                                 </button>
 
                                 {isSelectOpen && (
-                                    <div className="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-lg border border-gray-300 overflow-hidden">
+                                    <div
+                                        className="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-lg border border-gray-300 overflow-hidden">
                                         <div className="p-2 border-b border-gray-200">
                                             <input
                                                 type="text"
@@ -213,19 +267,35 @@ const OrderGeneratorForm = () => {
                         >
                             {isLoading ? (
                                 <>
-                                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                                    <Loader2 className="mr-2 h-5 w-5 animate-spin"/>
                                     <span>Generating...</span>
                                 </>
                             ) : (
                                 <>
-                                    <Download className="mr-2 h-5 w-5" />
-                                    <span>Generate and Download CSV</span>
+                                    <SquarePen className="mr-2 h-5 w-5"/>
+                                    <span>Generate orders</span>
                                 </>
                             )}
                         </button>
                     </div>
-                    {previewData.length > 0 && (
-                        <OrderPreview orders={previewData}/>
+                    {orders?.length > 0 && (
+                        <div className={'space-y-8'}>
+                            <div className="flex space-x-4">
+                                <button
+                                    onClick={() => handleDownload('csv')}
+                                    className="flex-1 py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center justify-center"
+                                >
+                                    <Download className="mr-2 h-5 w-5" /> Download CSV
+                                </button>
+                                <button
+                                    onClick={() => handleDownload('json')}
+                                    className="flex-1 py-2 px-4 bg-gray-600 text-white rounded-lg hover:bg-gray-700 flex items-center justify-center"
+                                >
+                                    <Download className="mr-2 h-5 w-5" /> Download JSON
+                                </button>
+                            </div>
+                            <OrderPreview orders={orders?.slice(0, 20)}/>
+                        </div>
                     )}
                     <InterfacePreview/>
                 </div>
