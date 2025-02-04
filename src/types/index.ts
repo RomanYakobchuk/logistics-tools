@@ -93,10 +93,13 @@ export type Status = 'Booked' | 'Dead' | 'Follow Up' | 'New';
 export type FollowUp = 'Follow Up 1' | 'Follow Up 2' | 'Follow Up 3' | 'Follow Up 4' | 'Follow Up 5' | 'Follow Up 6' | 'Follow Up 7' | 'Follow Up 8' | 'Follow Up 9';
 export type Source = 'Angi' | 'Direct Mail' | 'Google Ads' | 'Google (Organic)' | 'Home Advisor' | 'Saw Our Truck' | 'Thumbtack' | 'Yahoo' | 'Yelp';
 
-export interface IOrder {
-    customer: ICustomer;
-    pickup_address: IAddress;
-    delivery_address: IAddress;
+export interface IOrder extends ICustomer {
+    pickup_zip: string;
+    pickup_city: string;
+    pickup_state: string;
+    delivery_zip: string;
+    delivery_city: string;
+    delivery_state: string;
     move_type: MoveType;
     move_size: MoveSize;
     status: Status;

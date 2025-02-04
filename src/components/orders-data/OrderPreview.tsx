@@ -55,10 +55,10 @@ export const OrderPreview: React.FC<OrderPreviewProps> = ({ orders }) => {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                         {orders.slice(0, 20).map((order, index) => (
-                            <tr key={JSON.stringify(order.customer)} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                            <tr key={JSON.stringify(order.first_name + order.last_name + order.phone + order.email)} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="text-sm font-medium text-gray-900">
-                                        {order.customer.first_name} {order.customer.last_name}
+                                        {order.first_name} {order.last_name}
                                     </div>
                                     <div className="text-sm text-gray-500 mt-1">
                                         Source: {order.source}
@@ -67,22 +67,21 @@ export const OrderPreview: React.FC<OrderPreviewProps> = ({ orders }) => {
                                 <td className="px-6 py-4 whitespace-nowrap space-y-2">
                                     <div className="text-sm text-gray-500 text-nowrap flex items-center gap-2">
                                         <Mail className="h-4 w-4"/>
-                                        {order.customer.email}
+                                        {order.email}
                                     </div>
                                     <div className="text-sm text-gray-500 text-nowrap flex items-center gap-2">
                                         <Phone className="h-4 w-4"/>
-                                        {order.customer.phone}
+                                        {order.phone}
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-start gap-2">
                                         <MapPin className="h-4 w-4 flex-shrink-0"/>
                                         <div>
-                                            <div className="text-sm text-gray-900">{order.pickup_address.address}</div>
                                             <div className="text-sm text-gray-500">
-                                                {order.pickup_address.city}, {order.pickup_address.state}
+                                                {order.pickup_city}, {order.pickup_state}
                                             </div>
-                                            <div className="text-sm text-gray-500">{order.pickup_address.zip_code}</div>
+                                            <div className="text-sm text-gray-500">{order.pickup_zip}</div>
                                         </div>
                                     </div>
                                 </td>
@@ -90,11 +89,10 @@ export const OrderPreview: React.FC<OrderPreviewProps> = ({ orders }) => {
                                     <div className="flex items-start gap-2">
                                         <MapPin className="h-4 w-4 flex-shrink-0"/>
                                         <div>
-                                            <div className="text-sm text-gray-900">{order.delivery_address.address}</div>
                                             <div className="text-sm text-gray-500">
-                                                {order.delivery_address.city}, {order.delivery_address.state}
+                                                {order.delivery_city}, {order.delivery_state}
                                             </div>
-                                            <div className="text-sm text-gray-500">{order.delivery_address.zip_code}</div>
+                                            <div className="text-sm text-gray-500">{order.delivery_zip}</div>
                                         </div>
                                     </div>
                                 </td>

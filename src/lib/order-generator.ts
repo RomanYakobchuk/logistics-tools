@@ -1,44 +1,44 @@
-import { faker } from '@faker-js/faker';
-import { IAddress, IOrder, MoveSize, MoveType, Status, Source } from "@/types";
-import { EMAIL_DOMAINS, STATES, US_FIRST_NAMES, US_LAST_NAMES } from "@/lib/lists";
+import {faker} from '@faker-js/faker';
+import {IAddress, IOrder, MoveSize, MoveType, Status, Source} from "@/types";
+import {EMAIL_DOMAINS, STATES, US_FIRST_NAMES, US_LAST_NAMES} from "@/lib/lists";
 
 const VOLUME_RANGES = {
-    'Studio': { min: 400, max: 800 },
-    '1 Bedroom Apartment': { min: 300, max: 500 },
-    '1 Bedroom House': { min: 400, max: 700 },
-    '2 Bedroom Apartment': { min: 500, max: 1000 },
-    '2 Bedroom House': { min: 600, max: 1200 },
-    '3 Bedroom Apartment': { min: 700, max: 1500 },
-    '3 Bedroom House': { min: 800, max: 1600 },
-    '4+ Bedroom Apartment': { min: 900, max: 2000 },
-    '4+ Bedroom House': { min: 1000, max: 2400 },
-    'Few Items': { min: 200, max: 800 }
+    'Studio': {min: 400, max: 800},
+    '1 Bedroom Apartment': {min: 300, max: 500},
+    '1 Bedroom House': {min: 400, max: 700},
+    '2 Bedroom Apartment': {min: 500, max: 1000},
+    '2 Bedroom House': {min: 600, max: 1200},
+    '3 Bedroom Apartment': {min: 700, max: 1500},
+    '3 Bedroom House': {min: 800, max: 1600},
+    '4+ Bedroom Apartment': {min: 900, max: 2000},
+    '4+ Bedroom House': {min: 1000, max: 2400},
+    'Few Items': {min: 200, max: 800}
 };
 
 const CREW_SIZES = {
-    'Studio': { min: 2, max: 6 },
-    '1 Bedroom Apartment': { min: 2, max: 5 },
-    '1 Bedroom House': { min: 2, max: 5 },
-    '2 Bedroom Apartment': { min: 2, max: 6 },
-    '2 Bedroom House': { min: 2, max: 6 },
-    '3 Bedroom Apartment': { min: 2, max: 8 },
-    '3 Bedroom House': { min: 2, max: 8 },
-    '4+ Bedroom Apartment': { min: 3, max: 12 },
-    '4+ Bedroom House': { min: 3, max: 12 },
-    'Few Items': { min: 2, max: 4 }
+    'Studio': {min: 2, max: 6},
+    '1 Bedroom Apartment': {min: 2, max: 5},
+    '1 Bedroom House': {min: 2, max: 5},
+    '2 Bedroom Apartment': {min: 2, max: 6},
+    '2 Bedroom House': {min: 2, max: 6},
+    '3 Bedroom Apartment': {min: 2, max: 8},
+    '3 Bedroom House': {min: 2, max: 8},
+    '4+ Bedroom Apartment': {min: 3, max: 12},
+    '4+ Bedroom House': {min: 3, max: 12},
+    'Few Items': {min: 2, max: 4}
 };
 
 const ESTIMATED_RANGES = {
-    'Studio': { min: 1100, max: 7200 },
-    '1 Bedroom Apartment': { min: 1000, max: 7000 },
-    '1 Bedroom House': { min: 1200, max: 7500 },
-    '2 Bedroom Apartment': { min: 1500, max: 8000 },
-    '2 Bedroom House': { min: 1700, max: 8500 },
-    '3 Bedroom Apartment': { min: 1800, max: 9000 },
-    '3 Bedroom House': { min: 1900, max: 9500 },
-    '4+ Bedroom Apartment': { min: 2000, max: 10000 },
-    '4+ Bedroom House': { min: 2500, max: 12000 },
-    'Few Items': { min: 700, max: 2000 }
+    'Studio': {min: 1100, max: 7200},
+    '1 Bedroom Apartment': {min: 1000, max: 7000},
+    '1 Bedroom House': {min: 1200, max: 7500},
+    '2 Bedroom Apartment': {min: 1500, max: 8000},
+    '2 Bedroom House': {min: 1700, max: 8500},
+    '3 Bedroom Apartment': {min: 1800, max: 9000},
+    '3 Bedroom House': {min: 1900, max: 9500},
+    '4+ Bedroom Apartment': {min: 2000, max: 10000},
+    '4+ Bedroom House': {min: 2500, max: 12000},
+    'Few Items': {min: 700, max: 2000}
 };
 
 const TRUCKS_REQUIRED = {
@@ -55,10 +55,10 @@ const TRUCKS_REQUIRED = {
 };
 
 const STATUS_DISTRIBUTION = [
-    { status: 'Booked', weight: 40 },
-    { status: 'Dead', weight: 20 },
-    { status: 'Follow Up', weight: 30 },
-    { status: 'New', weight: 10 }
+    {status: 'Booked', weight: 40},
+    {status: 'Dead', weight: 20},
+    {status: 'Follow Up', weight: 30},
+    {status: 'New', weight: 10}
 ];
 
 const FOLLOW_UP_OPTIONS = [
@@ -78,17 +78,17 @@ const generateEmail = (firstName: string, lastName: string): string => {
 };
 
 const generatePhone = (): string => {
-    const areaCode = faker.number.int({ min: 200, max: 999 }).toString();
-    const prefix = faker.number.int({ min: 200, max: 999 }).toString();
-    const lineNumber = faker.number.int({ min: 1000, max: 9999 }).toString();
+    const areaCode = faker.number.int({min: 200, max: 999}).toString();
+    const prefix = faker.number.int({min: 200, max: 999}).toString();
+    const lineNumber = faker.number.int({min: 1000, max: 9999}).toString();
     return `+1${areaCode}${prefix}${lineNumber}`;
 };
 
 const weightedRandomStatus = (): Status => {
-    const totalWeight = STATUS_DISTRIBUTION.reduce((sum, { weight }) => sum + weight, 0);
+    const totalWeight = STATUS_DISTRIBUTION.reduce((sum, {weight}) => sum + weight, 0);
     let random = Math.random() * totalWeight;
 
-    for (const { status, weight } of STATUS_DISTRIBUTION) {
+    for (const {status, weight} of STATUS_DISTRIBUTION) {
         if (random < weight) return status as Status;
         random -= weight;
     }
@@ -170,10 +170,10 @@ const generateOrder = (pickupState?: string): IOrder => {
         deliveryAddress = generateAddress();
     }
 
-    const created_at = faker.date.past({ years: 1 }).toISOString().split('T')[0];
+    const created_at = faker.date.past({years: 1}).toISOString().split('T')[0];
     const move_date = faker.date.between({
         from: new Date(created_at),
-        to: faker.date.future({ years: 0.5, refDate: new Date(created_at) })
+        to: faker.date.future({years: 0.5, refDate: new Date(created_at)})
     }).toISOString().split('T')[0];
 
     const estimated = faker.number.int({
@@ -182,14 +182,16 @@ const generateOrder = (pickupState?: string): IOrder => {
     });
 
     const order: IOrder = {
-        customer: {
-            first_name: firstName,
-            last_name: lastName,
-            email: generateEmail(firstName, lastName),
-            phone: generatePhone(),
-        },
-        pickup_address: pickupAddress,
-        delivery_address: deliveryAddress,
+        first_name: firstName,
+        last_name: lastName,
+        email: generateEmail(firstName, lastName),
+        phone: generatePhone(),
+        pickup_zip: pickupAddress.zip_code,
+        pickup_city: pickupAddress.city,
+        pickup_state: pickupAddress.state,
+        delivery_zip: deliveryAddress.zip_code,
+        delivery_city: deliveryAddress.city,
+        delivery_state: deliveryAddress.state,
         move_type: moveType,
         move_size: moveSize,
         status,
@@ -208,9 +210,9 @@ const generateOrder = (pickupState?: string): IOrder => {
         move_date,
         estimated,
         balance: status === 'Booked'
-            ? Math.floor(estimated * faker.number.float({ min: 0, max: 0.85 }))
+            ? Math.floor(estimated * faker.number.float({min: 0, max: 0.85}))
             : status === 'Follow Up'
-                ? Math.floor(estimated * faker.number.float({ min: 0.85, max: 1 }))
+                ? Math.floor(estimated * faker.number.float({min: 0.85, max: 1}))
                 : estimated
     };
 
@@ -271,5 +273,5 @@ const getMoveSize = (): MoveSize => {
 };
 
 export const generateOrders = (count: number, pickupState?: string): IOrder[] => {
-    return Array.from({ length: count }, () => generateOrder(pickupState));
+    return Array.from({length: count}, () => generateOrder(pickupState));
 };
