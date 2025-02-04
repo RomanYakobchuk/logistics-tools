@@ -124,7 +124,6 @@ const InterfacePreview = () => {
                     <div className="font-medium text-gray-900 mb-3">Move Size Values</div>
                     <div className="space-y-1.5 text-sm">
                         <div className="grid grid-cols-1 gap-1">
-                            <div className="font-mono text-gray-900">Studio</div>
                             <div className="font-mono text-gray-900">1 Bedroom Apartment</div>
                             <div className="font-mono text-gray-900">1 Bedroom House</div>
                             <div className="font-mono text-gray-900">2 Bedroom Apartment</div>
@@ -134,6 +133,7 @@ const InterfacePreview = () => {
                             <div className="font-mono text-gray-900">4+ Bedroom Apartment</div>
                             <div className="font-mono text-gray-900">4+ Bedroom House</div>
                             <div className="font-mono text-gray-900">Few Items</div>
+                            <div className="font-mono text-gray-900">Studio</div>
                         </div>
                     </div>
                 </div>
@@ -141,8 +141,6 @@ const InterfacePreview = () => {
                     <div className="font-medium text-gray-900 mb-3">Volume Ranges</div>
                     <div className="space-y-1.5 text-sm">
                         <div className="grid grid-cols-2 gap-2">
-                            <div className="text-gray-600">Studio:</div>
-                            <div className="font-mono text-gray-900">400-800</div>
                             <div className="text-gray-600">1 Bedroom Apartment:</div>
                             <div className="font-mono text-gray-900">300-500</div>
                             <div className="text-gray-600">1 Bedroom House:</div>
@@ -161,6 +159,8 @@ const InterfacePreview = () => {
                             <div className="font-mono text-gray-900">1000-2400</div>
                             <div className="text-gray-600">Few Items:</div>
                             <div className="font-mono text-gray-900">200-800</div>
+                            <div className="text-gray-600">Studio:</div>
+                            <div className="font-mono text-gray-900">400-800</div>
                         </div>
                     </div>
                 </div>
@@ -169,26 +169,26 @@ const InterfacePreview = () => {
                     <div className="font-medium text-gray-900 mb-3">Crew Size Ranges</div>
                     <div className="space-y-1.5 text-sm">
                         <div className="grid grid-cols-2 gap-2">
-                            <div className="text-gray-600">Studio:</div>
-                            <div className="font-mono text-gray-900">2-6 people</div>
                             <div className="text-gray-600">1 Bedroom Apartment:</div>
-                            <div className="font-mono text-gray-900">2-5 people</div>
+                            <div className="font-mono text-gray-900">2-5</div>
                             <div className="text-gray-600">1 Bedroom House:</div>
-                            <div className="font-mono text-gray-900">2-5 people</div>
+                            <div className="font-mono text-gray-900">2-5</div>
                             <div className="text-gray-600">2 Bedroom Apartment:</div>
-                            <div className="font-mono text-gray-900">2-6 people</div>
+                            <div className="font-mono text-gray-900">2-6</div>
                             <div className="text-gray-600">2 Bedroom House:</div>
-                            <div className="font-mono text-gray-900">2-6 people</div>
+                            <div className="font-mono text-gray-900">2-6</div>
                             <div className="text-gray-600">3 Bedroom Apartment:</div>
-                            <div className="font-mono text-gray-900">2-8 people</div>
+                            <div className="font-mono text-gray-900">2-8</div>
                             <div className="text-gray-600">3 Bedroom House:</div>
-                            <div className="font-mono text-gray-900">2-8 people</div>
+                            <div className="font-mono text-gray-900">2-8</div>
                             <div className="text-gray-600">4+ Bedroom Apartment:</div>
-                            <div className="font-mono text-gray-900">3-12 people</div>
+                            <div className="font-mono text-gray-900">3-12</div>
                             <div className="text-gray-600">4+ Bedroom House:</div>
-                            <div className="font-mono text-gray-900">3-12 people</div>
+                            <div className="font-mono text-gray-900">3-12</div>
                             <div className="text-gray-600">Few Items:</div>
-                            <div className="font-mono text-gray-900">2-4 people</div>
+                            <div className="font-mono text-gray-900">2-4</div>
+                            <div className="text-gray-600">Studio:</div>
+                            <div className="font-mono text-gray-900">2-6</div>
                         </div>
                     </div>
                 </div>
@@ -197,26 +197,26 @@ const InterfacePreview = () => {
                     <div className="font-medium text-gray-900 mb-3">Estimated Cost Ranges</div>
                     <div className="space-y-1.5 text-sm">
                         <div className="grid grid-cols-2 gap-2">
-                            <div className="text-gray-600">Studio:</div>
-                            <div className="font-mono text-gray-900">$1,100-7,200</div>
                             <div className="text-gray-600">1 Bedroom Apartment:</div>
-                            <div className="font-mono text-gray-900">$1,000-7,000</div>
+                            <div className="font-mono text-gray-900">1,000-7,000</div>
                             <div className="text-gray-600">1 Bedroom House:</div>
-                            <div className="font-mono text-gray-900">$1,200-7,500</div>
+                            <div className="font-mono text-gray-900">1,200-7,500</div>
                             <div className="text-gray-600">2 Bedroom Apartment:</div>
-                            <div className="font-mono text-gray-900">$1,500-8,000</div>
+                            <div className="font-mono text-gray-900">1,500-8,000</div>
                             <div className="text-gray-600">2 Bedroom House:</div>
-                            <div className="font-mono text-gray-900">$1,700-8,500</div>
+                            <div className="font-mono text-gray-900">1,700-8,500</div>
                             <div className="text-gray-600">3 Bedroom Apartment:</div>
-                            <div className="font-mono text-gray-900">$1,800-9,000</div>
+                            <div className="font-mono text-gray-900">1,800-9,000</div>
                             <div className="text-gray-600">3 Bedroom House:</div>
-                            <div className="font-mono text-gray-900">$1,900-9,500</div>
+                            <div className="font-mono text-gray-900">1,900-9,500</div>
                             <div className="text-gray-600">4+ Bedroom Apartment:</div>
-                            <div className="font-mono text-gray-900">$2,000-10,000</div>
+                            <div className="font-mono text-gray-900">2,000-10,000</div>
                             <div className="text-gray-600">4+ Bedroom House:</div>
-                            <div className="font-mono text-gray-900">$2,500-12,000</div>
+                            <div className="font-mono text-gray-900">2,500-12,000</div>
                             <div className="text-gray-600">Few Items:</div>
-                            <div className="font-mono text-gray-900">$700-2,000</div>
+                            <div className="font-mono text-gray-900">700-2,000</div>
+                            <div className="text-gray-600">Studio:</div>
+                            <div className="font-mono text-gray-900">1,100-7,200</div>
                         </div>
                     </div>
                 </div>
@@ -225,14 +225,14 @@ const InterfacePreview = () => {
                     <div className="font-medium text-gray-900 mb-3">Trucks Required</div>
                     <div className="space-y-1.5 text-sm">
                         <div className="grid grid-cols-2 gap-2">
-                            <div className="text-gray-600">Studio:</div>
-                            <div className="font-mono text-gray-900">1 truck</div>
                             <div className="text-gray-600">1-3 Bedroom:</div>
-                            <div className="font-mono text-gray-900">1 truck</div>
+                            <div className="font-mono text-gray-900">1</div>
                             <div className="text-gray-600">4+ Bedroom:</div>
-                            <div className="font-mono text-gray-900">2 trucks</div>
+                            <div className="font-mono text-gray-900">2</div>
                             <div className="text-gray-600">Few Items:</div>
-                            <div className="font-mono text-gray-900">1 truck</div>
+                            <div className="font-mono text-gray-900">1</div>
+                            <div className="text-gray-600">Studio:</div>
+                            <div className="font-mono text-gray-900">1</div>
                         </div>
                     </div>
                 </div>
@@ -242,11 +242,11 @@ const InterfacePreview = () => {
                     <div className="space-y-1.5 text-sm">
                         <div className="grid grid-cols-2 gap-2">
                             <div className="text-gray-600">Booked:</div>
-                            <div className="font-mono text-gray-900">0-85% of estimated</div>
+                            <div className="font-mono text-gray-900">0-85%</div>
                             <div className="text-gray-600">Follow Up:</div>
-                            <div className="font-mono text-gray-900">85-100% of estimated</div>
+                            <div className="font-mono text-gray-900">85-100%</div>
                             <div className="text-gray-600">Other:</div>
-                            <div className="font-mono text-gray-900">100% of estimated</div>
+                            <div className="font-mono text-gray-900">100%</div>
                         </div>
                     </div>
                 </div>
