@@ -94,8 +94,6 @@ const options = {
     }
 };
 
-// const csv = await json2csv(orders, options);
-
 const OrderGeneratorForm = () => {
     const [orders, setOrders] = useState<IOrder[]>([]);
     const [pickupState, setPickupState] = useState('ALL');

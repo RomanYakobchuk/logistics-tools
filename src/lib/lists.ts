@@ -24,14 +24,11 @@ export const US_LAST_NAMES = [
 ];
 
 export const EMAIL_DOMAINS = [
-    'movemail.com', 'relocation.net', 'movingpro.org', 'moveit.com',
-    'relocate.net', 'moving-services.org', 'promovers.net', 'movingusa.com',
-    'movingsolutions.net', 'easymoving.com', 'quickmove.org', 'promove.net',
-    'movingexperts.com', 'fastmovers.org', 'movingteam.net', 'movewithus.com',
-    'simplymoving.net', 'bestmovers.org', 'movingplus.com', 'elitemoving.net',
-    'movingpros.org', 'easymove.net', 'movingamerica.com', 'promoving.org',
-    'movingservice.net', 'movingnow.com', 'reliablemovers.org', 'movinggroup.net',
-    'movingassistance.com', 'premiummovers.net', 'movingpartners.org', 'movinghelp.com'
+    'logisticusa.net', 'ltmail.org', 'boxltusa.com', 'superltools.org',
+    'ltcloud.org', 'logistictools.net', 'newpostlt.com', 'newfastpost.net',
+    'itnewpostcloud.org', 'hellopost.com', 'postnumberone.net', 'usenewdelivery.org',
+    'usehellodelivery.org', 'onebyonedelivery.org', 'deliveryforyou.net', 'movingwithus.com',
+    'knownothing.org', 'freefeeling.net', 'helloeverybody.net', 'extremedriving.com'
 ];
 
 export const STATES = {
