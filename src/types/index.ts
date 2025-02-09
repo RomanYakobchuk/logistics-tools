@@ -70,12 +70,12 @@ export interface IAddress {
 }
 
 export type MoveType =
-    | 'commercial_move'
-    | 'intrastate_move'
-    | 'junk_removal'
-    | 'labor_only'
-    | 'local_move'
-    | 'long_distance_move';
+    | 'Commercial Move'
+    | 'Intrastate Move'
+    | 'Junk Removal'
+    | 'Labor Only'
+    | 'Local Move'
+    | 'Long Distance Move';
 
 export type MoveSize =
     | 'Studio'

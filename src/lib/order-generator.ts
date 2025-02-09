@@ -84,17 +84,6 @@ const generatePhone = (): string => {
     return `+1${areaCode}${prefix}${lineNumber}`;
 };
 
-const weightedRandomStatus = (): Status => {
-    const totalWeight = STATUS_DISTRIBUTION.reduce((sum, {weight}) => sum + weight, 0);
-    let random = Math.random() * totalWeight;
-
-    for (const {status, weight} of STATUS_DISTRIBUTION) {
-        if (random < weight) return status as Status;
-        random -= weight;
-    }
-
-    return 'New';
-};
 
 const generateAddress = (
     specificState?: string,
@@ -138,27 +127,101 @@ const generateAddress = (
     };
 };
 
-const shouldUseSameCity = (moveType: MoveType): boolean => {
-    if (moveType === 'local_move') {
+const shouldUseSameCity = (moveType: string): boolean => {
+    if (moveType === 'Local Move') {
         return true;
-    } else if (moveType === 'intrastate_move') {
+    } else if (moveType === 'Intrastate Move') {
         return false;
     }
     return faker.datatype.boolean();
 };
+const weightedRandomSelection = <T extends string>(distribution: Distribution): T => {
+    const totalWeight = Object.values(distribution).reduce((sum, weight) => sum + weight, 0);
+    let random = Math.random() * totalWeight;
 
-const generateOrder = (pickupState?: string): IOrder => {
+    for (const [value, weight] of Object.entries(distribution)) {
+        if (random < weight) return value as T;
+        random -= weight;
+    }
+
+    return Object.keys(distribution)[0] as T;
+};
+
+const weightedRandomMoveType = (customDistribution?: Distribution): MoveType => {
+    if (customDistribution) {
+        return weightedRandomSelection<MoveType>(customDistribution);
+    }
+
+    const distribution = Object.fromEntries(MOVE_TYPE_DISTRIBUTION);
+    return weightedRandomSelection<MoveType>(distribution);
+};
+
+const weightedRandomStatus = (customDistribution?: Distribution): Status => {
+    if (customDistribution) {
+        return weightedRandomSelection<Status>(customDistribution);
+    }
+
+    const distribution = Object.fromEntries(
+        STATUS_DISTRIBUTION.map(({status, weight}) => [status, weight])
+    );
+    return weightedRandomSelection<Status>(distribution);
+};
+
+const distributeItemsByPercentage = <T extends string>(
+    count: number,
+    distribution: Record<T, number>
+): T[] => {
+    const result: T[] = [];
+    const items = Object.entries(distribution) as [T, number][];
+
+    let remaining = count;
+    const itemCounts = items.map(([item, percentage]) => {
+        const exactCount = Math.round((percentage / 100) * count);
+        remaining -= exactCount;
+        return { item, count: exactCount };
+    });
+
+    if (remaining !== 0) {
+        const sortedItems = [...itemCounts].sort((a, b) => b.count - a.count);
+        const adjustment = remaining > 0 ? 1 : -1;
+        const remainingAbs = Math.abs(remaining);
+
+        for (let i = 0; i < remainingAbs; i++) {
+            itemCounts.find(ic => ic.item === sortedItems[i % sortedItems.length].item)!.count += adjustment;
+        }
+    }
+
+    itemCounts.forEach(({item, count}) => {
+        for (let i = 0; i < count; i++) {
+            result.push(item);
+        }
+    });
+
+    for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [result[i], result[j]] = [result[j], result[i]];
+    }
+
+    return result;
+};
+
+
+const generateOrder = (
+    pickupState?: string,
+    specificMoveType?: MoveType,
+    specificStatus?: Status
+): IOrder => {
     const firstName = faker.helpers.arrayElement(US_FIRST_NAMES);
     const lastName = faker.helpers.arrayElement(US_LAST_NAMES);
-    const moveType = weightedRandomMoveType();
+    const moveType = specificMoveType || weightedRandomMoveType();
     const moveSize = getMoveSize();
-    const status = weightedRandomStatus();
+    const status = specificStatus || weightedRandomStatus();
 
     const pickupAddress = generateAddress(pickupState);
     let deliveryAddress: IAddress;
 
-    const isLocalMove = moveType === 'local_move' || moveType === 'intrastate_move' ||
-        moveType === 'labor_only' || moveType === 'junk_removal';
+    const isLocalMove = moveType === 'Local Move' || moveType === 'Intrastate Move' ||
+        moveType === 'Labor Only' || moveType === 'Junk Removal';
 
     if (isLocalMove) {
         if (shouldUseSameCity(moveType)) {
@@ -240,27 +303,14 @@ const generateOrder = (pickupState?: string): IOrder => {
 };
 
 const MOVE_TYPE_DISTRIBUTION: [MoveType, number][] = [
-    ['local_move', 40],
-    ['long_distance_move', 40],
-    ['intrastate_move', 5],
-    ['commercial_move', 5],
-    ['junk_removal', 5],
-    ['labor_only', 5]
+    ['Local Move', 40],
+    ['Long Distance Move', 40],
+    ['Intrastate Move', 5],
+    ['Commercial Move', 5],
+    ['Junk Removal', 5],
+    ['Labor Only', 5]
 ];
 
-const weightedRandomMoveType = (): MoveType => {
-    const totalWeight = MOVE_TYPE_DISTRIBUTION.reduce((sum, [, weight]) => sum + weight, 0);
-    let random = Math.random() * totalWeight;
-
-    for (const [moveType, weight] of MOVE_TYPE_DISTRIBUTION) {
-        if (random < weight) {
-            return moveType;
-        }
-        random -= weight;
-    }
-
-    return MOVE_TYPE_DISTRIBUTION[0][0];
-};
 
 const getMoveSize = (): MoveSize => {
     const sizes: MoveSize[] = [
@@ -271,7 +321,32 @@ const getMoveSize = (): MoveSize => {
     ];
     return faker.helpers.arrayElement(sizes);
 };
+interface Distribution {
+    [key: string]: number;
+}
+export const generateOrders = (
+    count: number,
+    pickupState?: string,
+    moveTypeDistribution?: Distribution,
+    statusDistribution?: Distribution
+): IOrder[] => {
+    const moveTypes = moveTypeDistribution
+        ? distributeItemsByPercentage(count, moveTypeDistribution)
+        : distributeItemsByPercentage(
+            count,
+            Object.fromEntries(MOVE_TYPE_DISTRIBUTION)
+        );
 
-export const generateOrders = (count: number, pickupState?: string): IOrder[] => {
-    return Array.from({length: count}, () => generateOrder(pickupState));
+    const statuses = statusDistribution
+        ? distributeItemsByPercentage(count, statusDistribution)
+        : distributeItemsByPercentage(
+            count,
+            Object.fromEntries(STATUS_DISTRIBUTION.map(({status, weight}) => [status, weight]))
+        );
+
+    return Array.from({length: count}, (_, index) => {
+        const moveType = moveTypes[index] as MoveType | undefined;
+        const status = statuses[index] as Status | undefined;
+        return generateOrder(pickupState, moveType, status);
+    });
 };

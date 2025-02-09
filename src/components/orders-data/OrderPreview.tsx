@@ -20,7 +20,7 @@ export const OrderPreview: React.FC<OrderPreviewProps> = ({ orders }) => {
                 onClick={() => setShowPreview(!showPreview)}
             >
                 <h3 className="text-lg font-medium text-gray-900">
-                    Preview (First {Math.min(orders.length, 20)} Orders)
+                    Preview (First {Math.min(orders.length, 100)} Orders)
                 </h3>
                 {showPreview ? <ChevronUp size={20}/> : <ChevronDown size={20}/>}
             </div>
@@ -54,7 +54,7 @@ export const OrderPreview: React.FC<OrderPreviewProps> = ({ orders }) => {
                         </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                        {orders.slice(0, 20).map((order, index) => (
+                        {orders.slice(0, 100).map((order, index) => (
                             <tr key={JSON.stringify(order.first_name + order.last_name + order.phone + order.email)} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="text-sm font-medium text-gray-900">

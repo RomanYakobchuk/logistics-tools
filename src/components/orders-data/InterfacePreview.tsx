@@ -1,6 +1,28 @@
 import React from 'react';
+import {IOrder} from "@/types";
 
-const InterfacePreview = () => {
+interface GeneratedStats {
+    moveTypes: { [key: string]: number };
+    statuses: { [key: string]: number };
+    totalOrders: number;
+}
+
+const InterfacePreview = ({ orders = [] }: { orders?: IOrder[] }) => {
+    const stats: GeneratedStats = orders.reduce((acc, order) => {
+        acc.moveTypes[order.move_type] = (acc.moveTypes[order.move_type] || 0) + 1;
+        acc.statuses[order.status] = (acc.statuses[order.status] || 0) + 1;
+        acc.totalOrders += 1;
+        return acc;
+    }, {
+        moveTypes: {},
+        statuses: {},
+        totalOrders: 0
+    } as GeneratedStats);
+
+    const calculatePercentage = (count: number, total: number): string => {
+        return `${((count / total) * 100).toFixed(1)}%`;
+    };
+
     return (
         <div className="mt-8 space-y-6">
             <div className="text-center">
@@ -9,6 +31,45 @@ const InterfacePreview = () => {
                     Overview of the data types and fields that will be generated
                 </p>
             </div>
+
+            {stats.totalOrders > 0 && (
+                <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <div className="font-medium text-gray-900 mb-3">Generated Move Types Distribution</div>
+                            <div className="space-y-1.5 text-sm">
+                                <div className="grid grid-cols-2 gap-2">
+                                    {Object.entries(stats.moveTypes).map(([type, count]) => (
+                                        <React.Fragment key={type}>
+                                            <div className="text-gray-600">{type}:</div>
+                                            <div className="font-mono text-gray-900">
+                                                {count} ({calculatePercentage(count, stats.totalOrders)})
+                                            </div>
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <div className="font-medium text-gray-900 mb-3">Generated Status Distribution</div>
+                            <div className="space-y-1.5 text-sm">
+                                <div className="grid grid-cols-2 gap-2">
+                                    {Object.entries(stats.statuses).map(([status, count]) => (
+                                        <React.Fragment key={status}>
+                                            <div className="text-gray-600">{status}:</div>
+                                            <div className="font-mono text-gray-900">
+                                                {count} ({calculatePercentage(count, stats.totalOrders)})
+                                            </div>
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="border-t border-gray-200 my-8"></div>
+                </>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
