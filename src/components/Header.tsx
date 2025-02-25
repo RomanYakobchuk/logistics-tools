@@ -24,6 +24,12 @@ export default function Header() {
 
                     <div className="flex gap-1">
                         <TooltipLink
+                            href="/distance-calculation"
+                            icon={MapPin}
+                            text="Distance calculation"
+                            isActive={isActive('/distance-calculation')}
+                        />
+                        <TooltipLink
                             href="/drive-distance"
                             icon={MapPin}
                             text="Drive Distance"

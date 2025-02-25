@@ -18,6 +18,8 @@ export interface ILocationDetails {
 
 export interface IRouteService {
     distanceMiles: number;
+    distance?: number;
+    coordinates?: Array<[number, number]>;
     duration: string;
     executionTime: number;
     error?: string;
@@ -42,6 +44,7 @@ export interface TransportOption {
 
 export interface IDriveDistanceItem {
     distanceMiles: number;
+    distance?: number;
     duration: string;
     executionTime: number;
     allData: any;
@@ -94,6 +97,8 @@ export type FollowUp = 'Follow Up 1' | 'Follow Up 2' | 'Follow Up 3' | 'Follow U
 export type Source = 'Angi' | 'Direct Mail' | 'Google Ads' | 'Google (Organic)' | 'Home Advisor' | 'Saw Our Truck' | 'Thumbtack' | 'Yahoo' | 'Yelp';
 
 export interface IOrder extends ICustomer {
+    pk: 'Order',
+    order_number: `NC-${number}`,
     pickup_zip: string;
     pickup_city: string;
     pickup_state: string;
@@ -114,4 +119,8 @@ export interface IOrder extends ICustomer {
     booked_date?: string;
     estimated: number;
     balance: number;
+}
+
+export interface ILeadSource {
+    name: string;
 }

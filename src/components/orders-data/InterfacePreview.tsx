@@ -76,6 +76,8 @@ const InterfacePreview = ({ orders = [] }: { orders?: IOrder[] }) => {
                     <div className="font-medium text-gray-900 mb-3">Order Data</div>
                     <div className="space-y-1.5 text-sm">
                         <div className="grid grid-cols-2 gap-2">
+                            <div className="text-gray-600">order_number:</div>
+                            <div className="font-mono text-gray-900">string</div>
                             <div className="text-gray-600">first_name:</div>
                             <div className="font-mono text-gray-900">string</div>
                             <div className="text-gray-600">last_name:</div>

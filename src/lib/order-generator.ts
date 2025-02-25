@@ -1,6 +1,7 @@
 import {faker} from '@faker-js/faker';
 import {IAddress, IOrder, MoveSize, MoveType, Status, Source} from "@/types";
 import {EMAIL_DOMAINS, STATES, US_FIRST_NAMES, US_LAST_NAMES} from "@/lib/lists";
+import {getCurrentOrderNumber, setNewOrderNumber} from "@/lib/order-number";
 
 const VOLUME_RANGES = {
     'Studio': {min: 400, max: 800},
@@ -178,7 +179,7 @@ const distributeItemsByPercentage = <T extends string>(
     const itemCounts = items.map(([item, percentage]) => {
         const exactCount = Math.round((percentage / 100) * count);
         remaining -= exactCount;
-        return { item, count: exactCount };
+        return {item, count: exactCount};
     });
 
     if (remaining !== 0) {
@@ -207,9 +208,14 @@ const distributeItemsByPercentage = <T extends string>(
 
 
 const generateOrder = (
-    pickupState?: string,
-    specificMoveType?: MoveType,
-    specificStatus?: Status
+    {
+        pickupState, specificMoveType, specificStatus, orderNumber
+    }: {
+        pickupState?: string,
+        specificMoveType?: MoveType,
+        specificStatus?: Status,
+        orderNumber: IOrder['order_number']
+    }
 ): IOrder => {
     const firstName = faker.helpers.arrayElement(US_FIRST_NAMES);
     const lastName = faker.helpers.arrayElement(US_LAST_NAMES);
@@ -245,6 +251,8 @@ const generateOrder = (
     });
 
     const order: IOrder = {
+        pk: "Order",
+        order_number: orderNumber,
         first_name: firstName,
         last_name: lastName,
         email: generateEmail(firstName, lastName),
@@ -321,15 +329,17 @@ const getMoveSize = (): MoveSize => {
     ];
     return faker.helpers.arrayElement(sizes);
 };
+
 interface Distribution {
     [key: string]: number;
 }
-export const generateOrders = (
+
+export const generateOrders = async (
     count: number,
     pickupState?: string,
     moveTypeDistribution?: Distribution,
     statusDistribution?: Distribution
-): IOrder[] => {
+): Promise<IOrder[]> => {
     const moveTypes = moveTypeDistribution
         ? distributeItemsByPercentage(count, moveTypeDistribution)
         : distributeItemsByPercentage(
@@ -344,9 +354,19 @@ export const generateOrders = (
             Object.fromEntries(STATUS_DISTRIBUTION.map(({status, weight}) => [status, weight]))
         );
 
-    return Array.from({length: count}, (_, index) => {
+    const lastOrderNumber = await getCurrentOrderNumber();
+
+    const data = Array.from({length: count}, (_, index) => {
         const moveType = moveTypes[index] as MoveType | undefined;
         const status = statuses[index] as Status | undefined;
-        return generateOrder(pickupState, moveType, status);
+        return generateOrder({
+            pickupState,
+            specificMoveType: moveType,
+            specificStatus: status,
+            orderNumber: `NC-${lastOrderNumber + index}`,
+        });
     });
+    await setNewOrderNumber(lastOrderNumber + count);
+
+    return data;
 };

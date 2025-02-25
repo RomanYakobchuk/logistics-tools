@@ -31,6 +31,9 @@ export const OrderPreview: React.FC<OrderPreviewProps> = ({ orders }) => {
                         <thead className="bg-gray-50">
                         <tr>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Order Number
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Customer
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -56,6 +59,11 @@ export const OrderPreview: React.FC<OrderPreviewProps> = ({ orders }) => {
                         <tbody className="bg-white divide-y divide-gray-200">
                         {orders.slice(0, 100).map((order, index) => (
                             <tr key={JSON.stringify(order.first_name + order.last_name + order.phone + order.email)} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <div className="text-base font-semibold text-gray-950">
+                                        {order.order_number}
+                                    </div>
+                                </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="text-sm font-medium text-gray-900">
                                         {order.first_name} {order.last_name}

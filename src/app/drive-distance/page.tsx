@@ -5,7 +5,7 @@ import {ILocation, IResponseDriveDistance, IRouteResults, TransportMode} from "@
 import {LocationSelector, Results, TransportModeSelector} from "@/components/drive-distance";
 import APIPricing from "@/components/drive-distance/ApiPricing";
 
-const API = process.env.NEXT_PUBLIC_DRIVE_DISTANCE_API || "";
+const API = (process.env.NEXT_PUBLIC_DRIVE_DISTANCE_API || "") + '/drive-distance';
 
 const DriveDistancePage = () => {
     const [origin, setOrigin] = useState<ILocation | null>(null);

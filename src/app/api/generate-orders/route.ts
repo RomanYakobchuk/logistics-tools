@@ -246,7 +246,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json(distributionValuesValidation.error, { status: 400 });
         }
 
-        const orders = generateOrders(
+        const orders = await generateOrders(
             countValidation.value!,
             pickupState?.toUpperCase() || undefined,
             parsedMoveType,

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef} from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -96,7 +96,7 @@ function decodeHeader(version: number, encodedHeader: number) {
     const precision = encodedHeader & 15;
     const thirdDim = (encodedHeader >> 4) & 7;
     const thirdDimPrecision = (encodedHeader >> 7) & 15;
-    return { precision, thirdDim, thirdDimPrecision };
+    return {precision, thirdDim, thirdDimPrecision};
 }
 
 function toSigned(val: number): number {
@@ -122,7 +122,7 @@ function decodePolyline(encoded: string) {
     const res = [];
 
     let i = 2;
-    for (;i < decoder.length;) {
+    for (; i < decoder.length;) {
         const deltaLat = toSigned(decoder[i]);
         const deltaLng = toSigned(decoder[i + 1]);
         lastLat += deltaLat;
@@ -157,7 +157,7 @@ const getRouteColor = (mode: string) => {
     }
 };
 
-const HereRouteDisplay = ({ route }: HereRouteDisplayProps) => {
+const HereRouteDisplay = ({route}: HereRouteDisplayProps) => {
     const mapRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<L.Map | null>(null);
 
@@ -197,10 +197,10 @@ const HereRouteDisplay = ({ route }: HereRouteDisplayProps) => {
             popupAnchor: [1, -34],
         });
 
-        L.marker(coordinates[0], { icon: customIcon }).addTo(map)
+        L.marker(coordinates[0], {icon: customIcon}).addTo(map)
             .bindPopup(`Start<br>Mode: ${section.transport.mode}`).openPopup();
 
-        L.marker(coordinates[coordinates.length - 1], { icon: customIcon }).addTo(map)
+        L.marker(coordinates[coordinates.length - 1], {icon: customIcon}).addTo(map)
             .bindPopup('End').openPopup();
 
         map.fitBounds(polyline.getBounds());
@@ -217,7 +217,7 @@ const HereRouteDisplay = ({ route }: HereRouteDisplayProps) => {
 
     return (
         <div className="w-full max-w-6xl mx-auto">
-            <div ref={mapRef} className="h-96 bg-gray-100 rounded-lg" />
+            <div ref={mapRef} className="h-96 bg-gray-100 rounded-lg"/>
         </div>
     );
 };
