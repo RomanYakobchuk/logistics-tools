@@ -1,6 +1,5 @@
 import {NextResponse} from "next/server";
-
-export const API_LAMBDA = 'https://api.krewsapp.com/dev/test-read-write-data';
+import {API_LAMBDA} from "@/lib/constant";
 
 export async function GET(request: Request) {
     const {searchParams} = new URL(request.url);
