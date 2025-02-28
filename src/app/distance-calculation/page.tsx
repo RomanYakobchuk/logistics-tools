@@ -9,7 +9,7 @@ import {ILocation, IRouteService, TransportMode} from "@/types";
 
 const HERERouteDisplayByCoordinates = dynamic(() => import("@/components/drive-distance/HERERouteDisplayByCoordinates"), {ssr: false});
 
-const API = (process.env.NEXT_PUBLIC_DRIVE_DISTANCE_API || "") + '/distance-calculation';
+const API = (process.env.NEXT_PUBLIC_DRIVE_DISTANCE_API || "");
 
 const DriveDistancePage = () => {
     const [origin, setOrigin] = useState<ILocation | null>(null);
