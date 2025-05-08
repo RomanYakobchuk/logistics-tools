@@ -2,11 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  @apply antialiased;
+:root {
+  --primary-color: #2563eb; /* Blue-600 */
+  --primary-hover: #1d4ed8; /* Blue-700 */
+  --primary-light: #dbeafe; /* Blue-100 */
+  --background-color: #f9fafb; /* Gray-50 */
+  --text-color: #1f2937; /* Gray-800 */
+  --secondary-text: #4b5563; /* Gray-600 */
 }
 
 body {
-  overflow-x: hidden;
-  width: 100%;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .input-field {
+    @apply block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-blue-500 focus:border-blue-500;
+  }
+
+  .card {
+    @apply p-6 bg-white rounded-lg shadow-md;
+  }
 }
