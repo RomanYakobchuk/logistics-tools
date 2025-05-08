@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const API = 'https://api.krewsapp.com';
 // process.env.API_BASE_URL ||
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ campaignId: string }> }) {
     const {campaignId} = await params;
 
     const authHeader = request.headers.get('Authorization');
