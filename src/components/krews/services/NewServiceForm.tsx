@@ -66,7 +66,7 @@ export default function NewServiceForm() {
     };
 
     const handleBack = () => {
-        router.push(`/krews/campaigns/${campaignId}/services`);
+        router.push(`/krews/campaigns/${campaign?.friendlyName}/services`);
     };
 
     if (isLoading) {

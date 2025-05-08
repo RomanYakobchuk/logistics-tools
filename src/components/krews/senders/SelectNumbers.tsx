@@ -2,14 +2,14 @@
 
 import CountryAreaSelector from "@/components/krews/numbers/CountryAreaSelector";
 import PhoneNumbersResults from "@/components/krews/numbers/PhoneNumbersResults";
-import React, {useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {getAvailableNumbers} from "@/lib/api/sms-service";
 import {IAvailableNumber, IAvailableNumbersResponse} from "@/interfaces/sms";
 import {useCampaign} from "@/lib/campaign/campaign-context";
 
 type Props = {
     selectedNumbers: string[];
-    setSelectedNumbers: (numbers: string[]) => void;
+    setSelectedNumbers: Dispatch<SetStateAction<string[]>>;
 }
 
 const SelectNumbers = ({selectedNumbers, setSelectedNumbers}: Props) => {

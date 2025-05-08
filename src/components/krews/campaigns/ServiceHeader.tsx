@@ -58,7 +58,6 @@ const ServiceHeader = () => {
                     company={company}
                     campaign={campaign}
                     isLoading={isLoading}
-                    service={service}
                 />
             </div>
 

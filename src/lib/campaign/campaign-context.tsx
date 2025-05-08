@@ -27,7 +27,7 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({children}) 
 
     const fetchCampaign = useCallback(async (campaignId: string) => {
         // If we already have this campaign loaded, don't fetch again
-        if (campaign && campaign.id === campaignId && !isLoading) {
+        if (campaign && campaign.friendlyName === campaignId && !isLoading) {
             return;
         }
 

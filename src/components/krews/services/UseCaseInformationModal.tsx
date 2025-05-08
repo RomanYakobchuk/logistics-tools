@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import {useState, useEffect, ReactNode} from 'react';
 
 interface UseCaseInfo {
     value: string;
     label: string;
     description: string;
-    icon: JSX.Element;
+    icon: ReactNode;
     examples: string[];
     benefits: string[];
 }
