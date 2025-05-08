@@ -58,6 +58,7 @@ export interface IService {
     friendlyName: string;
     inboundRequestUrl: string | null;
     dateCreated: string;
+    useCase?: string;
     dateUpdated: string;
     hasSenders: boolean;
     senders: ISender[];
