@@ -144,7 +144,7 @@ export default function ServiceNumbersPage() {
                         <div className="ml-4">
                             <h3 className="text-sm font-medium text-gray-500">Service Use Case</h3>
                             <div className="text-lg font-medium text-gray-900 capitalize">
-                                {service?.service?.useCase || service?.friendlyName}
+                                {service?.useCase || service?.friendlyName}
                             </div>
                         </div>
                     </div>
