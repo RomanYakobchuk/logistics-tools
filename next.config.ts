@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     env: {
         NEXT_PUBLIC_DRIVE_DISTANCE_API: process.env.NEXT_PUBLIC_DRIVE_DISTANCE_API,
         NEXT_PUBLIC_GEOCODE_API: process.env.NEXT_PUBLIC_GEOCODE_API,
-        API_BASE_URL: process.env.API_BASE_URL || 'https://api.krewsapp.com/test',
+        API_BASE_URL: process.env.API_BASE_URL || 'https://api.krewsapp.com',
     },
     images: {
         remotePatterns: [

@@ -6,15 +6,15 @@ import RequireAuth from '@/components/auth/require-auth';
 import { createCampaign } from '@/lib/api/sms-service';
 import { ICampaignForm } from '@/interfaces/sms';
 import UseCaseSelector from '@/components/krews/services/UseCaseSelector';
-import {useCampaign} from "@/lib/campaign/campaign-context";
+import { useCampaign } from "@/lib/campaign/campaign-context";
 
 const useCaseOptions = [
-    {value: 'marketing', label: 'Marketing'},
-    {value: 'notifications', label: 'Notifications'},
-    {value: 'verification', label: 'Verification'},
-    {value: 'alerts', label: 'System Alerts'},
-    {value: 'customer_service', label: 'Customer Service'},
-    {value: 'other', label: 'Other'},
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'notifications', label: 'Notifications' },
+    { value: 'verification', label: 'Verification' },
+    { value: 'discussion', label: 'Discussion' },
+    { value: 'poll', label: 'Poll' },
+    { value: 'undeclared', label: 'Undeclared' }
 ];
 
 export default function NewServiceForm() {
@@ -181,6 +181,7 @@ export default function NewServiceForm() {
                             <p className="mt-1 text-sm text-gray-500">A friendly name to identify this SMS service</p>
                         </div>
 
+                        {/* Використовуємо оновлені опції useCase */}
                         <UseCaseSelector
                             id="useCase"
                             name="useCase"
@@ -188,7 +189,7 @@ export default function NewServiceForm() {
                             options={useCaseOptions}
                             onChange={handleInputChange}
                             label="Use Case"
-                            description="What will this service be used for?"
+                            description="The primary purpose of this service (as specified by Twilio API)"
                             required
                         />
 

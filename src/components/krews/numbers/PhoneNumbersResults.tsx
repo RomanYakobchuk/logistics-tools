@@ -7,8 +7,8 @@ interface PhoneNumbersResultsProps {
     isLoadingMore?: boolean;
     onLoadMore: () => void;
     mode?: 'view' | 'select';
-    selectedNumbers?: string[];
-    onNumberSelect?: (phoneNumber: string, isSelected: boolean) => void;
+    selectedNumbers?: IAvailableNumber[];
+    onNumberSelect?: (phoneNumber: IAvailableNumber, isSelected: boolean) => void;
 }
 
 const PhoneNumbersResults: React.FC<PhoneNumbersResultsProps> = ({
@@ -70,7 +70,7 @@ const PhoneNumbersResults: React.FC<PhoneNumbersResultsProps> = ({
 
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+            <div className="px-6 py-4 border-b border-gray-200 flex flex-col flex-wrap sm:flex-row justify-between items-start sm:items-center gap-2">
                 <div>
                     <h2 className="text-lg font-semibold text-gray-800">Available Numbers</h2>
                     <p className="text-sm text-gray-500">Area code: {results.areaCode}, {results.countryCode === 'US' ? 'United States' : 'Canada'}</p>
@@ -112,13 +112,13 @@ const PhoneNumbersResults: React.FC<PhoneNumbersResultsProps> = ({
                     </thead>
                     <tbody>
                     {items?.map((number, index) => {
-                        const isSelected = selectedNumbers.includes(number.phoneNumber);
+                        const isSelected = selectedNumbers.includes(number);
 
                         return (
                             <tr
                                 key={number?.phoneNumber}
                                 className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} ${isSelected ? '!bg-blue-50' : ''} ${mode === 'select' ? 'hover:bg-blue-50 cursor-pointer' : ''}`}
-                                onClick={mode === 'select' && onNumberSelect ? () => onNumberSelect(number.phoneNumber, !isSelected) : undefined}
+                                onClick={mode === 'select' && onNumberSelect ? () => onNumberSelect(number, !isSelected) : undefined}
                             >
                                 {mode === 'select' && (
                                     <td className="pl-6 pr-3 py-4 whitespace-nowrap">
@@ -128,7 +128,7 @@ const PhoneNumbersResults: React.FC<PhoneNumbersResultsProps> = ({
                                                 checked={isSelected}
                                                 onChange={(e) => {
                                                     if (onNumberSelect) {
-                                                        onNumberSelect(number.phoneNumber, e.target.checked);
+                                                        onNumberSelect(number, e.target.checked);
                                                     }
                                                 }}
                                                 className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"

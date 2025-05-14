@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCampaign } from '@/lib/campaign/campaign-context';
 import { useService } from '@/lib/campaign/service-context';
 import { purchaseAndAssignPhoneNumbers } from '@/lib/api/sms-service';
-import { IPhoneNumberPurchaseResponse } from '@/interfaces/sms';
+import {IAvailableNumber, IPhoneNumberPurchaseResponse} from '@/interfaces/sms';
 import PhoneNumberSearch from "@/components/krews/numbers/SearchNumbers";
+import SelectedNumbersList from "@/components/krews/numbers/SelectedNumbersList";
 
 export default function PhoneNumberPurchaseWizard() {
     const router = useRouter();
@@ -14,7 +15,7 @@ export default function PhoneNumberPurchaseWizard() {
     const { service } = useService();
 
     const [currentStep, setCurrentStep] = useState(1);
-    const [selectedNumbers, setSelectedNumbers] = useState<string[]>([]);
+    const [selectedNumbers, setSelectedNumbers] = useState<IAvailableNumber[]>([]);
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [purchaseResult, setPurchaseResult] = useState<IPhoneNumberPurchaseResponse | null>(null);
@@ -35,7 +36,7 @@ export default function PhoneNumberPurchaseWizard() {
         router.push(`/krews/campaigns/${campaign?.friendlyName}/services/${service?.sid}/numbers`);
     };
 
-    const handleNumberSelection = (numbers: string[]) => {
+    const handleNumberSelection = (numbers: IAvailableNumber[]) => {
         setSelectedNumbers(numbers);
     };
 
@@ -48,7 +49,7 @@ export default function PhoneNumberPurchaseWizard() {
         try {
             const result = await purchaseAndAssignPhoneNumbers(
                 campaign.friendlyName,
-                selectedNumbers,
+                selectedNumbers?.map((s) => s?.phoneNumber),
                 service.sid
             );
 
@@ -78,6 +79,14 @@ export default function PhoneNumberPurchaseWizard() {
             </div>
         );
     }
+
+    const handleRemoveNumber = (phoneNumber: IAvailableNumber) => {
+        setSelectedNumbers(prev => prev.filter(num => num?.phoneNumber !== phoneNumber?.phoneNumber));
+    };
+
+    const clearAllSelectedNumbers = () => {
+        setSelectedNumbers([]);
+    };
 
     return (
         <div className="w-full mx-auto">
@@ -296,14 +305,21 @@ export default function PhoneNumberPurchaseWizard() {
                         // Show selected numbers before purchase
                         <div className="space-y-6">
                             <div>
-                                <h3 className="text-sm font-medium text-gray-900 mb-2">Selected Numbers ({selectedNumbers.length})</h3>
-                                <div className="bg-gray-50 rounded-lg p-4">
-                                    <ul className="text-sm text-gray-700 space-y-1">
-                                        {selectedNumbers.map((number, index) => (
-                                            <li key={index}>{number}</li>
-                                        ))}
-                                    </ul>
-                                </div>
+                                {selectedNumbers.length > 0 && (
+                                    <SelectedNumbersList
+                                        selectedNumbers={selectedNumbers}
+                                        onRemoveNumber={handleRemoveNumber}
+                                        onClearAll={clearAllSelectedNumbers}
+                                    />
+                                )}
+                                {/*<h3 className="text-sm font-medium text-gray-900 mb-2">Selected Numbers ({selectedNumbers.length})</h3>*/}
+                                {/*<div className="bg-gray-50 rounded-lg p-4">*/}
+                                {/*    <ul className="text-sm text-gray-700 space-y-1">*/}
+                                {/*        {selectedNumbers.map((number, index) => (*/}
+                                {/*            <li key={index}>{number}</li>*/}
+                                {/*        ))}*/}
+                                {/*    </ul>*/}
+                                {/*</div>*/}
                             </div>
 
                             {error && (
@@ -330,7 +346,7 @@ export default function PhoneNumberPurchaseWizard() {
                                 </button>
                                 <button
                                     onClick={handlePurchaseAndAssign}
-                                    disabled={isProcessing}
+                                    disabled={isProcessing || selectedNumbers.length <= 0}
                                     className="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {isProcessing ? (

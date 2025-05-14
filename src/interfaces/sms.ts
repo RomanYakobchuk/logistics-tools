@@ -77,29 +77,6 @@ export interface ISender {
     sid: string;
 }
 
-export interface IPhoneNumber {
-    sid: string;
-    phoneNumber: string;
-    friendlyName: string;
-    capabilities: {
-        sms: boolean;
-        mms: boolean;
-        voice: boolean;
-    };
-    dateCreated: string;
-    accountSid?: string;
-    status?: string;
-    locality?: string;
-    region?: string;
-    countryCode?: string;
-    service?: {
-        sid: string;
-        friendlyName: string;
-        useCase: string;
-    } | null;
-    attached: boolean;
-}
-
 export interface IServiceNumbers {
     type: 'service';
     serviceId: string;
@@ -210,3 +187,62 @@ export interface IAssignOnlyResponse {
 }
 
 export type IPhoneNumberPurchaseResponse = IReserveOnlyResponse | IReserveAndAssignResponse | IAssignOnlyResponse;
+
+// src/interfaces/sms.ts
+export interface PhoneNumberCapabilities {
+    sms: boolean;
+    mms: boolean;
+    voice: boolean;
+}
+
+export interface ServiceInfo {
+    sid: string;
+    friendlyName: string;
+    useCase?: string;
+    serviceSid?: string;
+    serviceName?: string;
+}
+
+export interface IPhoneNumber {
+    sid: string;
+    phoneNumber: string;
+    friendlyName: string;
+    capabilities: PhoneNumberCapabilities;
+    dateCreated: string;
+    status?: string;
+    locality?: string;
+    region?: string;
+    countryCode?: string;
+    service: ServiceInfo | null;
+    attached: boolean;
+}
+
+export interface NumberStats {
+    totalNumbers: number;
+    attachedToServices: number;
+    unattachedNumbers: number;
+    totalServices: number;
+    numbersByCapability: {
+        sms: number;
+        mms: number;
+        voice: number;
+    };
+}
+
+export interface ICampaignNumbers {
+    type: 'campaign';
+    campaignName: string;
+    count: number;
+    stats: NumberStats;
+    items: IPhoneNumber[];
+    services: ServiceInfo[];
+}
+
+export interface IServiceNumbers {
+    type: 'service';
+    service: ServiceInfo;
+    count: number;
+    items: IPhoneNumber[];
+}
+
+export type PhoneNumbersResponse = ICampaignNumbers | IServiceNumbers;

@@ -22,16 +22,15 @@ export default function ServicesTable({ services, campaignId }: ServicesTablePro
         });
     };
 
-    const handleEditService = (serviceId: string) => {
+    const handleViewService = (serviceId: string) => {
         router.push(`/krews/campaigns/${campaignId}/services/${serviceId}`);
     };
-
-    const handleViewService = (serviceId: string) => {
-        router.push(`/krews/campaigns/${campaignId}/services/${serviceId}/numbers`);
+    const handleSendSmsService = (serviceId: string) => {
+        router.push(`/krews/campaigns/${campaignId}/services/${serviceId}/send`);
     };
 
     const handleAddSender = (serviceId: string) => {
-        router.push(`/krews/campaigns/${campaignId}/services/${serviceId}/senders/new`);
+        router.push(`/krews/campaigns/${campaignId}/services/${serviceId}/numbers/new`);
     };
 
     const servicesWithoutSenders = services.some(service => !service.senders || service.senders.length === 0);
@@ -44,9 +43,9 @@ export default function ServicesTable({ services, campaignId }: ServicesTablePro
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
-                        No senders
+                        No numbers
                     </span>
-                    <span className="text-xs text-gray-500 mt-1">You need to add a sender to send messages</span>
+                    <span className="text-xs text-gray-500 mt-1">You need to add a number to send messages</span>
                 </div>
             );
         }
@@ -85,8 +84,8 @@ export default function ServicesTable({ services, campaignId }: ServicesTablePro
                         </div>
                         <div className="ml-3">
                             <p className="text-sm text-amber-700">
-                                <strong>Action required:</strong> Some of your services don&apos;t have senders.
-                                To send SMS messages, you need to add a phone number as a sender to each service.
+                                <strong>Action required:</strong> Some of your services don&apos;t have phone numbers.
+                                To send SMS messages, you need to add a phone number to each service.
                             </p>
                         </div>
                     </div>
@@ -109,7 +108,7 @@ export default function ServicesTable({ services, campaignId }: ServicesTablePro
                                 Service Name
                             </th>
                             <th scope="col" className="px-6 min-w-56 w-56 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Senders
+                                Numbers
                             </th>
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Created
@@ -148,7 +147,7 @@ export default function ServicesTable({ services, campaignId }: ServicesTablePro
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                                             </svg>
-                                            Add Sender
+                                            Add Number
                                         </button>
                                     </div>
                                 </td>
@@ -166,11 +165,10 @@ export default function ServicesTable({ services, campaignId }: ServicesTablePro
                                         View
                                     </button>
                                     <button
-                                        disabled
-                                        onClick={() => handleEditService(service.sid)}
+                                        onClick={() => handleSendSmsService(service.sid)}
                                         className="text-blue-600 hover:text-blue-900 mr-4"
                                     >
-                                        Edit
+                                        Send
                                     </button>
                                 </td>
                             </tr>

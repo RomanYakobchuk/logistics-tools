@@ -186,7 +186,7 @@ const CampaignsList: React.FC = () => {
                                         <Link href={`/krews/campaigns/${campaign.friendlyName}`} className="text-blue-600 hover:text-blue-900">
                                             View
                                         </Link>
-                                        <Link href={`/krews/campaigns/${campaign.sid}/messages`} className="text-blue-600 hover:text-blue-900">
+                                        <Link href={`/krews/campaigns/${campaign.friendlyName}/messages`} className="text-blue-600 hover:text-blue-900">
                                             Services
                                         </Link>
                                     </td>

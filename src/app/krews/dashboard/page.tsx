@@ -108,6 +108,54 @@ export default function DashboardPage() {
                             </span>
                         </div>
                     </Link>
+
+                    {/* Send SMS Card */}
+                    <Link
+                        href="/krews/send"
+                        className="block p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                    >
+                        <div className="flex items-center">
+                            <div className="flex-shrink-0 p-3 rounded-full bg-blue-100">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6 text-blue-600"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                                    />
+                                </svg>
+                            </div>
+                            <div className="ml-4">
+                                <h2 className="text-lg font-semibold text-gray-800">Send SMS</h2>
+                                <p className="text-gray-600">Send a new SMS message</p>
+                            </div>
+                        </div>
+                        <div className="mt-4 flex justify-end">
+                            <span className="text-blue-600 text-sm font-semibold flex items-center">
+                                Send Message
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-4 w-4 ml-1"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9 5l7 7-7 7"
+                                    />
+                                </svg>
+                            </span>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </RequireAuth>

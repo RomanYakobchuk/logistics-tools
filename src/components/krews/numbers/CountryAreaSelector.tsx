@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { usAreaCodes, canadianAreaCodes } from '@/utils/area-codes';
-import {IAvailableNumbersResponse} from "@/interfaces/sms";
 
 interface CustomSelectorProps {
     onSelectionChange: (countryCode: string, areaCode: string) => void;

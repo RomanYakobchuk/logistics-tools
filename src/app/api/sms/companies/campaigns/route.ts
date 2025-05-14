@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const API = process.env.API_BASE_URL;
+
 export async function GET(request: NextRequest) {
     const authHeader = request.headers.get('Authorization');
 
@@ -11,7 +13,7 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const externalApiUrl = `https://api.krewsapp.com/sms/companies/campaigns`;
+        const externalApiUrl = `${API}/sms/companies/campaigns`;
 
         const response = await fetch(externalApiUrl, {
             method: 'GET',

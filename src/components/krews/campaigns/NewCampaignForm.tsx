@@ -16,9 +16,9 @@ const useCaseOptions = [
     {value: 'marketing', label: 'Marketing'},
     {value: 'notifications', label: 'Notifications'},
     {value: 'verification', label: 'Verification'},
-    {value: 'alerts', label: 'System Alerts'},
-    {value: 'customer_service', label: 'Customer Service'},
-    {value: 'other', label: 'Other'},
+    {value: 'discussion', label: 'Discussion'},
+    {value: 'poll', label: 'Poll'},
+    {value: 'undeclared', label: 'Other'},
 ];
 
 export default function NewCampaignForm() {
@@ -232,7 +232,7 @@ export default function NewCampaignForm() {
                                     service</p>
                             </div>
 
-                            {/* Заменяем стандартный селектор на кастомный */}
+                            {/* Використовуємо оновлені опції useCase */}
                             <UseCaseSelector
                                 id="useCase"
                                 name="useCase"
@@ -240,7 +240,7 @@ export default function NewCampaignForm() {
                                 options={useCaseOptions}
                                 onChange={handleInputChange}
                                 label="Use Case"
-                                description="What will this service be used for?"
+                                description="The primary purpose of this messaging service (according to Twilio API specifications)"
                                 required
                             />
 

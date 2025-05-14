@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const API = 'https://api.krewsapp.com';
-// process.env.API_BASE_URL ||
+const API = process.env.API_BASE_URL;
 
 export async function GET(request: NextRequest) {
     const authHeader = request.headers.get('Authorization');
@@ -71,6 +70,7 @@ export async function POST(request: NextRequest) {
 
         const externalApiUrl = `${API}/sms/campaigns`;
 
+        console.log('Sending request...')
         const response = await fetch(externalApiUrl, {
             method: 'POST',
             headers: {
@@ -83,6 +83,7 @@ export async function POST(request: NextRequest) {
                 useCase
             }),
         });
+        console.log('Response: ', response);
 
         if (!response.ok) {
             const errorText = await response.text();
